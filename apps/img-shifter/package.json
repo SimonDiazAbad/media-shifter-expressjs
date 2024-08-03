@@ -1,0 +1,12 @@
+{
+  "name": "@media-shifter/img-shifter",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node ./index.ts"
+  }
+}
