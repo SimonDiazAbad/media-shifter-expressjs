@@ -1,8 +1,3 @@
-if (true) {
-  console.log("Starting img-shifter microservice...");
-}
-console.log("Starting img-shifter microservice...");
-
 import express, { Express, Request, Response } from "express";
 
 const app: Express = express();
