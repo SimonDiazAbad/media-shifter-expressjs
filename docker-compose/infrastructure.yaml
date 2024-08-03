@@ -16,11 +16,11 @@
 #       - 3000:3000
 #     volumes:
 #       - .:/usr/src/app
-
 version: '3.8'
 
 services:
   img-shifter:
+    tty: true
     build:
       context: .
       dockerfile: ./apps/img-shifter/Dockerfile
@@ -28,5 +28,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - .:/usr/src/app:ro # Ensure read-only to avoid overwriting
-    command: ["node", "dist/apps/img-shifter/index.js"]
+      - .:/usr/src/app:ro  # Ensure read-only to avoid overwriting
+    command: node dist/apps/img-shifter/index
+    environment:
+      NODE_ENV: production
+
