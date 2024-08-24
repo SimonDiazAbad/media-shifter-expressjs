@@ -7,7 +7,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "img:dev": "yarn workspace @media-shifter/img-shifter dev",
-    "img:build": "yarn workspace @media-shifter/img-shifter build"
+    "img:build": "yarn workspace @media-shifter/img-shifter build",
+    "gateway:dev": "yarn workspace @media-shifter/gateway dev",
+    "gateway:build": "yarn workspace @media-shifter/gateway build",
+    "all:dev": "yarn img:dev && yarn gateway:dev",
+    "all:build": "yarn img:build && yarn gateway:build",
+    "all:run": "yarn all:build && docker-compose up -d"
   },
   "keywords": [],
   "author": "",

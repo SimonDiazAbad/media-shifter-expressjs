@@ -10,13 +10,13 @@ RUN apk add --no-cache yarn
 COPY package.json yarn.lock tsconfig.json ./
 
 # Copy the application source code
-COPY apps/img-shifter ./apps/img-shifter
+COPY apps/gateway ./apps/gateway
 
 # Install dependencies using Yarn
 RUN yarn install
 
 # Build the application
-RUN yarn img:build
+RUN yarn gateway:build
 
 # Stage 2: Production
 FROM node:alpine as production
@@ -40,8 +40,8 @@ COPY --from=development /usr/src/app/dist ./dist
 COPY --from=development /usr/src/app/node_modules ./node_modules
 
 # Expose the necessary port
-EXPOSE 3001
+EXPOSE 3000
 
 # Command to run the application
-CMD ["node", "dist/apps/img-shifter/index.js"]
-# CMD node dist/apps/img-shifter/index.js
+CMD ["node", "dist/apps/gateway/index.js"]
+# CMD node dist/apps/gateway/index.js
