@@ -6,16 +6,16 @@
   "private": true,
   "author": "",
   "source": "src/index.ts",
-  "types": "dist/index.d.ts",
-  "main": "dist/main.js",
+  "types": "src/index.ts",
+  "main": "src/index.ts",
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "yarn build && yarn start",
-    "start": "node ./dist/main.js",
-    "build": "parcel build",
-    "watch": "nodemon"
+    "dev": "bun --watch ./src/index.ts",
+    "start": "bun ../../dist/img-shifter/index.js",
+    "build": "bun build ./src/index.ts --outdir ../../dist/img-shifter --target bun"
   },
   "dependencies": {
+    "@media-shifter/commons": "workspace:../../packages/commons",
     "express": "^4.19.2",
     "@types/express": "^4.17.21",
     "ts-node": "^10.9.2",

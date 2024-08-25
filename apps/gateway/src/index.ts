@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import appRouter from "./routes";
+import { ENV } from "packages/commons/src/constants/env";
 
 const app: Express = express();
 const port = process.env.PORT || 3000;

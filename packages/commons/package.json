@@ -6,12 +6,11 @@
   "author": "",
   "license": "UNLICENSED",
   "source": "src/index.ts",
-  "types": "dist/index.d.ts",
-  "main": "dist/main.js",
+  "types": "src/index.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "dev": "yarn build",
-    "build": "parcel build",
-    "watch": "nodemon"
+    "dev": "bun --watch ./src/index.ts",
+    "build": "bun build ./src/index.ts --outdir ../../dist/packages/commons --target bun"
   },
   "dependencies": {
     "@types/amqplib": "^0.10.5",

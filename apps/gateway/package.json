@@ -5,17 +5,16 @@
   "keywords": [],
   "author": "",
   "source": "src/index.ts",
-  "types": "dist/index.d.ts",
-  "main": "dist/main.js",
+  "types": "src/index.ts",
+  "main": "src/index.ts",
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "yarn build && yarn start",
-    "start": "node ./dist/main.js",
-    "build": "parcel build",
-    "watch": "nodemon"
+    "dev": "bun --watch ./src/index.ts",
+    "start": "bun ../../dist/gateway/index.js",
+    "build": "bun build ./src/index.ts --outdir ../../dist/gateway --target bun"
   },
   "dependencies": {
-    "@media-shifter/commons": "*",
+    "@media-shifter/commons": "workspace:../../packages/commons",
     "@types/amqplib": "^0.10.5",
     "@types/express": "^4.17.21",
     "amqplib": "^0.10.4",
