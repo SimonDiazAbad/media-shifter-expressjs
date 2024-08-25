@@ -9,6 +9,7 @@
     "img:dev": "bun --filter @media-shifter/img-shifter dev",
     "img:build": "bun --filter @media-shifter/img-shifter build",
     "img:start": "bun --filter @media-shifter/img-shifter start",
+    "gateway:run": "bun --filter @media-shifter/gateway run",
     "gateway:start": "bun --filter @media-shifter/gateway start",
     "gateway:dev": "bun --filter @media-shifter/gateway dev",
     "gateway:build": "bun --filter @media-shifter/gateway build",

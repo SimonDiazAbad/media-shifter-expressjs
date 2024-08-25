@@ -9,9 +9,10 @@
   "main": "src/index.ts",
   "license": "UNLICENSED",
   "scripts": {
+    "run": "bun ./src/index.ts",
     "dev": "bun --watch ./src/index.ts",
     "start": "bun ../../dist/gateway/index.js",
-    "build": "bun build ./src/index.ts --outdir ../../dist/gateway --target bun"
+    "build": "bun build ./src/index.ts --outdir ../../dist/gateway --sourcemap --target bun"
   },
   "dependencies": {
     "@media-shifter/commons": "workspace:../../packages/commons",
@@ -23,7 +24,5 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   },
-  "devDependencies": {
-    "parcel": "^2.12.0"
-  }
+  "devDependencies": {}
 }

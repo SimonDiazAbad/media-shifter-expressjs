@@ -1,47 +1,44 @@
-# Stage 1: Development
-FROM node:14-buster as development
+# use the official Bun image
+# see all versions at https://hub.docker.com/r/oven/bun/tags
+FROM oven/bun:1 AS base
+WORKDIR /usr/src/app
 
-WORKDIR /usr/src
+# install dependencies into temp directory
+# this will cache them and speed up future builds
+FROM base AS install
+RUN mkdir -p /temp/dev
+COPY package.json bun.lockb /temp/dev/
+COPY apps/img-shifter/package.json /temp/dev/apps/img-shifter/
+COPY packages/commons/package.json /temp/dev/packages/commons/
+RUN cd /temp/dev && bun install
 
-# Copy workspace and package manager files
-COPY package.json yarn.lock tsconfig.json ./
+# install with --production (exclude devDependencies)
+RUN mkdir -p /temp/prod
+COPY package.json /temp/prod/
+COPY apps/img-shifter/package.json /temp/prod/apps/img-shifter/
+COPY packages/commons/package.json /temp/prod/packages/commons/
+RUN cd /temp/prod && bun install --production
 
-# Copy the application source code
-# ideally we will build dist to the root to avoid this 
+# copy node_modules from temp directory
+# then copy all (non-ignored) project files into the image
+FROM base AS prerelease
+COPY --from=install /temp/dev/node_modules node_modules
+COPY package.json ./
 COPY apps/img-shifter ./apps/img-shifter
-RUN rm -rf ./apps/img-shifter/dist
-
 COPY packages/commons ./packages/commons
-RUN rm -rf ./packages/commons/dist
 
-# Install dependencies using Yarn
-RUN yarn install
+# [optional] tests & build
+ENV NODE_ENV=production
+# RUN bun test
+RUN bun img:build
 
-# Build the application
-RUN yarn commons:build
-RUN yarn img:build
+# copy production dependencies and source code into final image
+FROM base AS release
+# COPY --from=install /temp/prod/node_modules node_modules
+COPY --from=prerelease /usr/src/app/dist/img-shifter ./dist/img-shifter
+# COPY --from=prerelease /usr/src/app/apps/img-shifter/package.json ./apps/img-shifter/package.json
 
-# Stage 2: Production
-FROM node:14-buster as production
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /usr/src
-
-# Copy only the necessary files
-COPY package.json yarn.lock ./
-
-# Install production dependencies using Yarn
-RUN yarn install --production
-
-# Copy the build output and node_modules from the development stage
-COPY --from=development /usr/src/app/img-shifter/dist ./apps/img-shifter/dist
-COPY --from=development /usr/src/packages/commons/dist ./packages/commons/dist
-
-# Expose the necessary port
-EXPOSE 3001
-
-# Command to run the application
-CMD ["node", "apps/img-shifter/dist/main.js"]
-# CMD node dist/apps/img-shifter/index.js
+# run the app
+USER bun
+EXPOSE 3000
+ENTRYPOINT [ "bun", "dist/img-shifter/index.js" ]

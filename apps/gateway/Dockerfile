@@ -1,50 +1,44 @@
-# Stage 1: Development
-FROM node:14-buster as development
+# use the official Bun image
+# see all versions at https://hub.docker.com/r/oven/bun/tags
+FROM oven/bun:1 AS base
+WORKDIR /usr/src/app
 
-WORKDIR /usr/src
+# install dependencies into temp directory
+# this will cache them and speed up future builds
+FROM base AS install
+RUN mkdir -p /temp/dev
+COPY package.json bun.lockb /temp/dev/
+COPY apps/gateway/package.json /temp/dev/apps/gateway/
+COPY packages/commons/package.json /temp/dev/packages/commons/
+RUN cd /temp/dev && bun install
 
-# Copy workspace and package manager files
-COPY package.json yarn.lock tsconfig.json ./
+# install with --production (exclude devDependencies)
+RUN mkdir -p /temp/prod
+COPY package.json /temp/prod/
+COPY apps/gateway/package.json /temp/prod/apps/gateway/
+COPY packages/commons/package.json /temp/prod/packages/commons/
+RUN cd /temp/prod && bun install --production
 
-# Copy the application source code
-# ideally we will build dist to the root to avoid this 
+# copy node_modules from temp directory
+# then copy all (non-ignored) project files into the image
+FROM base AS prerelease
+COPY --from=install /temp/dev/node_modules node_modules
+COPY package.json ./
 COPY apps/gateway ./apps/gateway
-RUN rm -rf ./apps/gateway/dist
-
 COPY packages/commons ./packages/commons
-RUN rm -rf ./packages/commons/dist
 
-# Install dependencies using Yarn
-RUN yarn install
+# [optional] tests & build
+ENV NODE_ENV=production
+# RUN bun test
+RUN bun gateway:build
 
-# Build the application
-RUN yarn commons:build
-RUN yarn gateway:build
+# copy production dependencies and source code into final image
+FROM base AS release
+# COPY --from=install /temp/prod/node_modules node_modules
+COPY --from=prerelease /usr/src/app/dist/gateway ./dist/gateway
+# COPY --from=prerelease /usr/src/app/apps/gateway/package.json ./apps/gateway/package.json
 
-# Stage 2: Production
-FROM node:14-buster as production
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /usr/src
-
-# Install Yarn globally
-# RUN apk add --no-cache yarn
-
-# Copy only the necessary files
-COPY package.json yarn.lock ./
-
-# Install production dependencies using Yarn
-RUN yarn install --production
-
-# Copy the build output and node_modules from the development stage
-COPY --from=development /usr/src/apps/gateway/dist ./apps/gateway/dist
-COPY --from=development /usr/src/packages/commons/dist ./packages/commons/dist
-
-# Expose the necessary port
+# run the app
+USER bun
 EXPOSE 3000
-
-# Command to run the application
-CMD ["node", "apps/gateway/dist/main.js"]
-# CMD node dist/apps/gateway/index.js
+ENTRYPOINT [ "bun", "dist/gateway/index.js" ]

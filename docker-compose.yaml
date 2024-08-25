@@ -6,12 +6,9 @@ services:
     build:
       context: .
       dockerfile: ./apps/gateway/Dockerfile
-      target: development
-    command: node apps/gateway/dist/main.js
+    command: bun dist/gateway/index.js
     ports:
       - 3000:3000
-    volumes:
-      - .:/usr/src/app
     depends_on:
       - rabbitmq
     #######################################################
@@ -23,14 +20,11 @@ services:
     build:
       context: .
       dockerfile: ./apps/img-shifter/Dockerfile
-      target: development
     command: node apps/img-shifter/dist/main.js
     # env_file:
     #   - ./apps/img-shifter/.env
     ports:
       - 3001:3001
-    volumes:
-      - .:/usr/src/app
     networks:
       - rabbitmq_network
   #######################################################

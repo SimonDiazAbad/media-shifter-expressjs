@@ -5,12 +5,13 @@ const resizerRouter: Router = express.Router();
 
 // resizerRouter.get("/image-dimensions", imageDimensionsController);
 resizerRouter.get("/image-dimensions", async (req: Request, res: Response) => {
-  const connection = await getRabbitmqConnection("amqp://localhost");
+  console.log("image-dimensions");
+  const connection = await getRabbitmqConnection("amqp://rabbitmq");
   const channel = await connection.createChannel();
   const queue = "TEST";
 
   await channel.assertQueue(queue);
-  const message = "TEST12sdd3";
+  const message = "new message";
 
   channel.sendToQueue(queue, Buffer.from(message));
 
