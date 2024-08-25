@@ -10,8 +10,9 @@
     "img:build": "yarn workspace @media-shifter/img-shifter build",
     "gateway:dev": "yarn workspace @media-shifter/gateway dev",
     "gateway:build": "yarn workspace @media-shifter/gateway build",
+    "commons:build": "yarn workspace @media-shifter/commons build",
     "all:dev": "yarn img:dev && yarn gateway:dev",
-    "all:build": "yarn img:build && yarn gateway:build",
+    "all:build": "yarn commons:build && yarn img:build && yarn gateway:build",
     "all:run": "yarn all:build && docker-compose up -d"
   },
   "keywords": [],
@@ -25,6 +26,6 @@
   },
   "workspaces": [
     "apps/*",
-    "libs/*"
+    "packages/*"
   ]
 }

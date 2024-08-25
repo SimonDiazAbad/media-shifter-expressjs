@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "keywords": [],
+  "private": true,
   "author": "",
   "license": "UNLICENSED",
   "scripts": {
@@ -15,6 +16,7 @@
     "express": "^4.19.2",
     "@types/express": "^4.17.21",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "@media-shifter/commons": "*"
   }
 }
