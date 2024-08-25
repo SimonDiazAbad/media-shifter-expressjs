@@ -5,10 +5,11 @@
   "keywords": [],
   "author": "",
   "license": "UNLICENSED",
-  "main": "dist/index.js",
+  "source": "src/index.ts",
   "types": "dist/index.d.ts",
+  "main": "dist/main.js",
   "scripts": {
-    "build": "tsc"
+    "build": "parcel build"
   },
   "dependencies": {}
 }

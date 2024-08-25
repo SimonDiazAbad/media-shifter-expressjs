@@ -11,3 +11,7 @@ coverage
 
 .env
 dist
+
+.parcel-cache
+
+# we ignore all dist folders

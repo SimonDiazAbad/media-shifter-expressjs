@@ -27,7 +27,7 @@
     //   ]
     // }
     "paths": {
-      "@media-shifter/commons": ["dist/packages/commons"]
+      "@media-shifter/commons": ["packages/commons/dist"]
     }
   }
 }

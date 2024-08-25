@@ -4,17 +4,24 @@
   "description": "",
   "keywords": [],
   "author": "",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "main": "dist/main.js",
   "license": "UNLICENSED",
   "scripts": {
     "dev": "ts-node ./src/index.ts",
-    "build": "tsc"
+    "build": "parcel build"
   },
-  "main": "./index.js",
   "dependencies": {
+    "@media-shifter/commons": "*",
+    "@types/amqplib": "^0.10.5",
     "@types/express": "^4.17.21",
+    "amqplib": "^0.10.4",
     "express": "^4.19.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4",
-    "@media-shifter/commons": "*"
+    "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "parcel": "^2.12.0"
   }
 }
