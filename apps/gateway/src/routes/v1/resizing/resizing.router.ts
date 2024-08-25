@@ -1,17 +1,17 @@
 import express, { Express, Request, Response, Router } from "express";
-import amqp from "amqplib";
-import { testVar } from "@media-shifter/commons";
+import { getRabbitmqConnection } from "@media-shifter/commons";
 
 const resizerRouter: Router = express.Router();
 
 // resizerRouter.get("/image-dimensions", imageDimensionsController);
 resizerRouter.get("/image-dimensions", async (req: Request, res: Response) => {
-  const connection = await amqp.connect("amqp://rabbitmq");
+  const connection = await getRabbitmqConnection("amqp://localhost");
   const channel = await connection.createChannel();
   const queue = "TEST";
 
   await channel.assertQueue(queue);
-  const message = testVar;
+  const message = "TEST12sdd3";
+
   channel.sendToQueue(queue, Buffer.from(message));
 
   console.log(`sent to rabbitmq: ${message}`);

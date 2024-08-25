@@ -9,7 +9,13 @@
   "types": "dist/index.d.ts",
   "main": "dist/main.js",
   "scripts": {
-    "build": "parcel build"
+    "dev": "yarn build",
+    "build": "parcel build",
+    "watch": "nodemon"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@types/amqplib": "^0.10.5",
+    "amqplib": "^0.10.4",
+    "dotenv": "^16.4.5"
+  }
 }

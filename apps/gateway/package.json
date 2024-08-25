@@ -9,14 +9,17 @@
   "main": "dist/main.js",
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "ts-node ./src/index.ts",
-    "build": "parcel build"
+    "dev": "yarn build && yarn start",
+    "start": "node ./dist/main.js",
+    "build": "parcel build",
+    "watch": "nodemon"
   },
   "dependencies": {
     "@media-shifter/commons": "*",
     "@types/amqplib": "^0.10.5",
     "@types/express": "^4.17.21",
     "amqplib": "^0.10.4",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
