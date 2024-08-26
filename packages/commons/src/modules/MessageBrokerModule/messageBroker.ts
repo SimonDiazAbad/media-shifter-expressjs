@@ -1,4 +1,4 @@
-import amqplib, { Channel, Connection } from "amqplib";
+import amqplib, { Channel, Connection, ConsumeMessage } from "amqplib";
 import { waitUntil } from "../../utils";
 
 export class MessageBrokerService {
@@ -80,5 +80,18 @@ export class MessageBrokerService {
 
   public static getChannel(): Channel | null {
     return MessageBrokerService.channel;
+  }
+
+  public async consume(
+    queueName: string,
+    handler: (msg: ConsumeMessage | null) => void,
+    config?: amqplib.Options.Consume
+  ) {
+    if (!MessageBrokerService.channel) {
+      throw new Error("Channel is not created. Call connect() first.");
+    }
+    await MessageBrokerService.channel.consume(queueName, handler, {
+      ...config,
+    });
   }
 }

@@ -8,7 +8,8 @@ resizeRouter.get("/", async (req: Request, res: Response) => {
   const messageBroker = MessageBrokerService.getInstance();
 
   const resizeData = {
-    imageUri: "./images/test.png",
+    //  we generate a random imageUri
+    imageUri: Math.random().toString(),
     targetWidth: 100,
     targetHeight: 100,
     userId: "1",
