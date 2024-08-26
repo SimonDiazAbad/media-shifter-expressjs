@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, Router } from "express";
+import express, { Request, Response, Router } from "express";
 import { getRabbitmqConnection } from "@media-shifter/commons";
 
 const resizerRouter: Router = express.Router();
