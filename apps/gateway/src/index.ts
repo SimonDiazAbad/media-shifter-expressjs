@@ -1,14 +1,15 @@
 import express, { Express, Request, Response } from "express";
 import appRouter from "./routes";
 // import { ENV } from "@media-shifter/commons";
-import { getRabbitmqConnection } from "@media-shifter/commons";
+import { MessageBrokerService } from "@media-shifter/commons";
 
 async function main() {
   const app: Express = express();
   const port = process.env.PORT || 3000;
 
   // we wait for rabbitmq to be ready
-  const connection = await getRabbitmqConnection("amqp://rabbitmq");
+  const connection = MessageBrokerService.getInstance("amqp://rabbitmq");
+  await connection.connect();
 
   app.use(appRouter);
 
