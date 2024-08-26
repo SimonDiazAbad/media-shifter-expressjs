@@ -11,7 +11,7 @@ export class MessageBrokerService {
     this.url = url;
   }
 
-  public static getInstance(url: string): MessageBrokerService {
+  public static getInstance(url?: string): MessageBrokerService {
     if (!MessageBrokerService.instance) {
       MessageBrokerService.instance = new MessageBrokerService(url);
     }
@@ -22,7 +22,7 @@ export class MessageBrokerService {
     if (!MessageBrokerService.connection) {
       MessageBrokerService.connection = await waitUntil(
         async () => {
-          console.log("Connecting to RabbitMQ...");
+          console.log("🟡 Connecting to RabbitMQ...");
           return await amqplib.connect(this.url);
         },
         {
@@ -33,7 +33,11 @@ export class MessageBrokerService {
         }
       );
     }
-    console.log("connected");
+
+    MessageBrokerService.channel =
+      await MessageBrokerService.connection.createChannel();
+
+    console.log("🟢 Connected to RabbitMQ");
     if (!MessageBrokerService.channel && MessageBrokerService.connection) {
       MessageBrokerService.channel =
         await MessageBrokerService.connection.createChannel();
@@ -44,18 +48,22 @@ export class MessageBrokerService {
     if (!MessageBrokerService.channel) {
       throw new Error("Channel is not created. Call connect() first.");
     }
-    await MessageBrokerService.channel.assertQueue(queueName, {
+    return await MessageBrokerService.channel.assertQueue(queueName, {
       durable: true,
     });
   }
 
-  public publishToQueue(queueName: string, message: string) {
+  public publishToQueue(queueName: string, message: any) {
     if (!MessageBrokerService.channel) {
       throw new Error("Channel is not created. Call connect() first.");
     }
-    MessageBrokerService.channel.sendToQueue(queueName, Buffer.from(message), {
-      persistent: true,
-    });
+    MessageBrokerService.channel.sendToQueue(
+      queueName,
+      Buffer.from(JSON.stringify(message)),
+      {
+        persistent: true,
+      }
+    );
   }
 
   public static async close(): Promise<void> {
