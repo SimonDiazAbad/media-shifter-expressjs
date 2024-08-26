@@ -9,6 +9,16 @@ const resizeHandler = (msg: ConsumeMessage | null) => {
     console.log({
       content,
     });
+
+    const channel = MessageBrokerService.getChannel();
+
+    channel.ack(msg);
+
+    // console.log({
+    //   content: content,
+    //   fields: msg.fields,
+    //   properties: msg.properties,
+    // });
     // Add your resize handling logic here...
   }
 };
