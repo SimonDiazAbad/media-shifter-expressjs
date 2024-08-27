@@ -1,14 +1,8 @@
-import dotenv from "dotenv";
-import path from "path";
-
-const dotenvPath = process.env.NODE_ENV === "test" ? ".env.test" : ".env";
-
-dotenv.config({
-  path: path.resolve(__dirname, `../../${dotenvPath}`),
-});
-
 // TODO: add env validation
 export const ENV = {
-  rabbitmqUrl: process.env.RABBITMQ_URL || "amqp://guest:guest@localhost:5672/",
-  TEST: "123AS12312D",
+  RABBITMQ_URL: process.env.RABBITMQ_URL,
+  MINIO_ENDPOINT: process.env.MINIO_ENDPOINT,
+  MINIO_PORT: process.env.MINIO_PORT,
+  MINIO_ACCESS_KEY: process.env.MINIO_ACCESS_KEY,
+  MINIO_SECRET_KEY: process.env.MINIO_SECRET_KEY,
 };

@@ -1,7 +1,7 @@
 // queues.ts
 
 export const Queues = {
-  IMAGE: {
+  IMAGES: {
     RESIZE: "image_resize",
     INVERT: "image_invert",
     UPSCALE: "image_upscale",

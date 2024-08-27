@@ -8,15 +8,15 @@ async function main() {
   const port = process.env.PORT || 3000;
 
   // we wait for rabbitmq to be ready
-  const messageBroker = MessageBrokerService.getInstance(ENV.rabbitmqUrl);
+  const messageBroker = MessageBrokerService.getInstance(ENV.RABBITMQ_URL);
 
   await messageBroker.connect();
 
   // TODO: move this to an init function
-  await messageBroker.assertQueue(Queues.IMAGE.RESIZE);
-  await messageBroker.assertQueue(Queues.IMAGE.INVERT);
-  await messageBroker.assertQueue(Queues.IMAGE.REMOVE_BACKGROUND);
-  await messageBroker.assertQueue(Queues.IMAGE.UPSCALE);
+  await messageBroker.assertQueue(Queues.IMAGES.RESIZE);
+  await messageBroker.assertQueue(Queues.IMAGES.INVERT);
+  await messageBroker.assertQueue(Queues.IMAGES.REMOVE_BACKGROUND);
+  await messageBroker.assertQueue(Queues.IMAGES.UPSCALE);
 
   app.use(appRouter);
 

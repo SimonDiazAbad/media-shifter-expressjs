@@ -29,16 +29,16 @@ async function startConsumer() {
   await messageBroker.connect();
 
   // Asserting Queues
-  await messageBroker.assertQueue(Queues.IMAGE.RESIZE);
-  await messageBroker.assertQueue(Queues.IMAGE.INVERT);
-  await messageBroker.assertQueue(Queues.IMAGE.REMOVE_BACKGROUND);
-  await messageBroker.assertQueue(Queues.IMAGE.UPSCALE);
+  await messageBroker.assertQueue(Queues.IMAGES.RESIZE);
+  await messageBroker.assertQueue(Queues.IMAGES.INVERT);
+  await messageBroker.assertQueue(Queues.IMAGES.REMOVE_BACKGROUND);
+  await messageBroker.assertQueue(Queues.IMAGES.UPSCALE);
 
   // Consuming Messages
-  await messageBroker.consume(Queues.IMAGE.RESIZE, resizeHandler);
-  await messageBroker.consume(Queues.IMAGE.INVERT, resizeHandler);
-  await messageBroker.consume(Queues.IMAGE.REMOVE_BACKGROUND, resizeHandler);
-  await messageBroker.consume(Queues.IMAGE.UPSCALE, resizeHandler);
+  await messageBroker.consume(Queues.IMAGES.RESIZE, resizeHandler);
+  await messageBroker.consume(Queues.IMAGES.INVERT, resizeHandler);
+  await messageBroker.consume(Queues.IMAGES.REMOVE_BACKGROUND, resizeHandler);
+  await messageBroker.consume(Queues.IMAGES.UPSCALE, resizeHandler);
 
   console.log("🟢 Consumers are set up and listening to queues");
 }
