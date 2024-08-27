@@ -1,14 +1,14 @@
 #!/bin/sh
 
-# Start MinIO server in the background
-minio server /data --console-address ":9001" &
+minio server /data --console-address ":${MINIO_CONSOLE_PORT}" &
 
-# Ensure the server has time to start
 sleep 5
 
-# Set up the MinIO client and create bucket
-mc alias set myminio http://localhost:9000 "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD"
+mc alias set myminio http://localhost:"${MINIO_SERVER_PORT}" "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD"
 mc mb myminio/images
 
-# Wait indefinitely to keep the container running
+mc admin user add myminio "$MINIO_IMAGES_USER" "$MINIO_IMAGES_PASSWORD"
+# TODO: create more specific policies
+mc admin policy attach myminio readwrite --user="$MINIO_IMAGES_USER"
+
 wait
