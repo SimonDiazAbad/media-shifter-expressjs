@@ -14,9 +14,11 @@ services:
     depends_on:
       - rabbitmq
       - minio
+      - postgresql
     networks:
       - rabbitmq_network
       - minio_network
+      - postgresql_network
   #######################################################
   #  img-shifter
   #######################################################
@@ -32,9 +34,11 @@ services:
     depends_on:
       - rabbitmq
       - minio
+      - postgresql
     networks:
       - rabbitmq_network
       - minio_network
+      - postgresql_network
   #######################################################
   #  rabbitmq
   #######################################################
@@ -65,9 +69,24 @@ services:
       - ./minio_data:/data
     networks:
       - minio_network
+  #######################################################
+  #  postgresql
+  #######################################################
+  postgresql:
+    image: postgres:16.4
+    container_name: postgresql
+    env_file:
+      - ./docker-compose/postgresql/.env
+    ports:
+      - 5432:5432
+    networks:
+      - postgresql_network
+    restart: unless-stopped
 
 networks:
   rabbitmq_network:
     driver: bridge
   minio_network:
+    driver: bridge
+  postgresql_network:
     driver: bridge
