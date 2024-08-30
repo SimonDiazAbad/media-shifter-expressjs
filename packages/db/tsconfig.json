@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "outDir": "../../dist/packages/commons"
+    "outDir": "../../dist/packages/db"
   },
   "include": ["src/**/*"],
   "exclude": [
