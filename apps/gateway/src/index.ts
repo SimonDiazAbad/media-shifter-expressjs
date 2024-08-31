@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import appRouter from "./routes";
-// import { ENV } from "@media-shifter/commons";
-import { ENV, MessageBrokerService, Queues } from "@media-shifter/commons";
+import { ENV } from "./constants/env";
+import { MessageBrokerService, Queues } from "@media-shifter/commons";
 import cors from "cors";
 import { middleware } from "supertokens-node/framework/express";
 import supertokens from "supertokens-node";

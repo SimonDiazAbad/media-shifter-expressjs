@@ -8,7 +8,7 @@ services:
       dockerfile: ./apps/gateway/Dockerfile
     command: bun dist/gateway/index.js
     env_file:
-      - ./apps/img-shifter/.env
+      - ./apps/gateway/.env
     ports:
       - 3000:3000
     depends_on:

@@ -1,11 +1,14 @@
-import path from "path";
-import { ENV as DB_ENV } from "@media-shifter/db/src/env";
+import { zDbEnv } from "@media-shifter/db/src/env";
+import { zRabbitMQEnv, zMinioEnv } from "@media-shifter/commons/src";
+import { z } from "zod";
 
-// TODO: add env validation
-export const ENV = {
-  RABBITMQ_URL:
-    process.env.RABBITMQ_URL || "amqp://guest:guest@localhost:5672/",
-  SUPERTOKENS_CONNECTION_URI: process.env.SUPERTOKENS_CONNECTION_URI,
-  SUPERTOKENS_API_KEY: process.env.SUPERTOKENS_API_KEY,
-  ...DB_ENV,
-};
+export const zEnv = z
+  .object({
+    SUPERTOKENS_CONNECTION_URI: z.string(),
+    SUPERTOKENS_API_KEY: z.string(),
+  })
+  .merge(zRabbitMQEnv)
+  .merge(zMinioEnv)
+  .merge(zDbEnv);
+
+export const ENV = zEnv.parse(process.env);
