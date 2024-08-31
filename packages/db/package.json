@@ -19,7 +19,8 @@
     "@media-shifter/db": "workspace:../commons",
     "@types/pg": "^8.11.8",
     "drizzle-orm": "^0.33.0",
-    "pg": "^8.12.0"
+    "pg": "^8.12.0",
+    "uuid": "^10.0.0"
   },
   "scripts": {
     "migration:generate": "drizzle-kit generate",

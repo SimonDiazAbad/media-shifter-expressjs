@@ -10,6 +10,7 @@ RUN mkdir -p /temp/dev
 COPY package.json bun.lockb /temp/dev/
 COPY apps/gateway/package.json /temp/dev/apps/gateway/
 COPY packages/commons/package.json /temp/dev/packages/commons/
+COPY packages/db/package.json /temp/dev/packages/db/
 RUN cd /temp/dev && bun install
 
 # install with --production (exclude devDependencies)
@@ -17,6 +18,7 @@ RUN mkdir -p /temp/prod
 COPY package.json /temp/prod/
 COPY apps/gateway/package.json /temp/prod/apps/gateway/
 COPY packages/commons/package.json /temp/prod/packages/commons/
+COPY packages/db/package.json /temp/prod/packages/db/
 RUN cd /temp/prod && bun install --production
 
 # copy node_modules from temp directory
@@ -26,6 +28,8 @@ COPY --from=install /temp/dev/node_modules node_modules
 COPY package.json ./
 COPY apps/gateway ./apps/gateway
 COPY packages/commons ./packages/commons
+COPY packages/db ./packages/db
+
 
 # [optional] tests & build
 ENV NODE_ENV=production

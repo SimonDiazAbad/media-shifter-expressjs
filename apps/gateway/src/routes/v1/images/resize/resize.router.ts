@@ -5,8 +5,8 @@ import {
   ObjectStorageService,
   Buckets,
   ENV,
+  JobStatus,
 } from "@media-shifter/commons";
-import * as Minio from "minio";
 
 const resizeRouter: Router = express.Router();
 

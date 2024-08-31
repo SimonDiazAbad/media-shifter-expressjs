@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@media-shifter/commons": "workspace:../../packages/commons",
+    "@media-shifter/db": "workspace:../../packages/db",
     "@types/amqplib": "^0.10.5",
     "@types/express": "^4.17.21",
     "amqplib": "^0.10.4",
