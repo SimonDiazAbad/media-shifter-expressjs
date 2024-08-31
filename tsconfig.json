@@ -26,5 +26,8 @@
     //     "libs/common/src/*"
     //   ]
     // }
+    "paths": {
+      "@media-shifter/commons": ["packages/commons/dist"]
+    }
   }
 }

@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, Router } from "express";
+import express, { Router } from "express";
 import routerV1 from "./v1/index";
 
 const appRouter: Router = express.Router();

@@ -11,3 +11,10 @@ coverage
 
 .env
 dist
+
+.parcel-cache
+
+minio_data
+postgresql_data
+
+# we ignore all dist folders
