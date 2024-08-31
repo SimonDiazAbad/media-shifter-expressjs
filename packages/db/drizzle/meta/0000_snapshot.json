@@ -1,5 +1,5 @@
 {
-  "id": "9af37c8b-e68a-4a23-ba94-090beee502c0",
+  "id": "c8bfca36-8bc8-47e2-b6d7-d675d4a23aeb",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -21,14 +21,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "input_image_uri": {
-          "name": "input_image_uri",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "output_image_uri": {
-          "name": "output_image_uri",
+        "image_uri": {
+          "name": "image_uri",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -64,7 +58,15 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "image_jobs_image_uri_unique": {
+          "name": "image_jobs_image_uri_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "image_uri"
+          ]
+        }
+      }
     }
   },
   "enums": {

@@ -26,7 +26,7 @@
   },
   "scripts": {
     "migration:generate": "env-cmd drizzle-kit generate",
-    "migration:run": "bun src/migrate.ts",
-    "migration:seed": "bun src/seed.ts"
+    "migration:run": "env-cmd bun run src/migrate.ts",
+    "migration:seed": "env-cmd bun src/seed.ts"
   }
 }
