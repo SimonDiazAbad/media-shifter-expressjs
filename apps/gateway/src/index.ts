@@ -2,10 +2,28 @@ import express, { Express, Request, Response } from "express";
 import appRouter from "./routes";
 // import { ENV } from "@media-shifter/commons";
 import { ENV, MessageBrokerService, Queues } from "@media-shifter/commons";
+import cors from "cors";
+import { middleware } from "supertokens-node/framework/express";
+import supertokens from "supertokens-node";
+import { errorHandler } from "supertokens-node/framework/express";
+import { superTokensInit } from "./init/supertokens";
 
 async function main() {
   const app: Express = express();
   const port = process.env.PORT || 3000;
+
+  await superTokensInit();
+
+  // finish this config later
+  app.use(
+    cors({
+      origin: "http://localhost:3001",
+      allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
+      credentials: true,
+    })
+  );
+
+  app.use(middleware());
 
   // we wait for rabbitmq to be ready
   const messageBroker = MessageBrokerService.getInstance(ENV.RABBITMQ_URL);
@@ -19,6 +37,8 @@ async function main() {
   await messageBroker.assertQueue(Queues.IMAGES.UPSCALE);
 
   app.use(appRouter);
+  app.use(errorHandler());
+  // add own error handler below
 
   app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);

@@ -7,10 +7,17 @@ import {
   ENV,
   JobStatus,
 } from "@media-shifter/commons";
+import { verifySession } from "supertokens-node/recipe/session/framework/express";
 
 const resizeRouter: Router = express.Router();
 
-resizeRouter.get("/", async (req: Request, res: Response) => {
+resizeRouter.get("/", verifySession(), async (req: Request, res: Response) => {
+  // @ts-expect-error
+  const userId = req.session.getUserId();
+  console.log({
+    userId,
+  });
+
   console.log(req.path);
   const messageBroker = MessageBrokerService.getInstance();
   const objectStorage = ObjectStorageService.getInstance();
@@ -37,7 +44,9 @@ resizeRouter.get("/", async (req: Request, res: Response) => {
 
   messageBroker.publishToQueue(Queues.IMAGES.RESIZE, resizeData);
 
-  res.send("dimensions");
+  res.send({
+    userId: userId,
+  });
 });
 
 export default resizeRouter;
