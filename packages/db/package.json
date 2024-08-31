@@ -24,6 +24,7 @@
   },
   "scripts": {
     "migration:generate": "drizzle-kit generate",
-    "migration:run": "bun src/migrate.ts"
+    "migration:run": "bun src/migrate.ts",
+    "migration:seed": "bun src/seed.ts"
   }
 }
