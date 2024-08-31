@@ -1,5 +1,5 @@
 import * as Minio from "minio";
-import { MINIO_ENV } from "../../constants";
+import { zMinioEnv } from "../../constants";
 
 interface PutObjectParams {
   bucket: string;
@@ -15,11 +15,11 @@ export class ObjectStorageService {
 
   private constructor(params?: Minio.ClientOptions) {
     ObjectStorageService.client = new Minio.Client({
-      endPoint: MINIO_ENV.MINIO_ENDPOINT,
-      port: Number(MINIO_ENV.MINIO_PORT),
+      endPoint: process.env.MINIO_ENDPOINT,
+      port: Number(process.env.MINIO_PORT),
       useSSL: false,
-      accessKey: MINIO_ENV.MINIO_ACCESS_KEY,
-      secretKey: MINIO_ENV.MINIO_SECRET_KEY,
+      accessKey: process.env.MINIO_ACCESS_KEY,
+      secretKey: process.env.MINIO_SECRET_KEY,
       ...params,
     });
   }

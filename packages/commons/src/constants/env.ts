@@ -11,6 +11,3 @@ export const zMinioEnv = z.object({
   MINIO_ACCESS_KEY: z.string(),
   MINIO_SECRET_KEY: z.string(),
 });
-
-export const RABBIT_MQ_ENV = zRabbitMQEnv.parse(process.env);
-export const MINIO_ENV = zMinioEnv.parse(process.env);

@@ -1,5 +1,5 @@
 {
-  "id": "50265836-8745-4703-b02d-6ee42d247596",
+  "id": "9af37c8b-e68a-4a23-ba94-090beee502c0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -19,20 +19,19 @@
           "type": "job_status",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true,
-          "default": "'PENDING'"
+          "notNull": true
         },
         "input_image_uri": {
           "name": "input_image_uri",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "output_image_uri": {
           "name": "output_image_uri",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "user_id": {
           "name": "user_id",
@@ -46,76 +45,6 @@
           "primaryKey": false,
           "notNull": false,
           "default": 0
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "image_jobs_user_id_users_id_fk": {
-          "name": "image_jobs_user_id_users_id_fk",
-          "tableFrom": "image_jobs",
-          "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.users": {
-      "name": "users",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "email": {
-          "name": "email",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "password": {
-          "name": "password",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "role": {
-          "name": "role",
-          "type": "role",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'USER'"
         },
         "created_at": {
           "name": "created_at",
@@ -147,14 +76,6 @@
         "IN_PROGRESS",
         "COMPLETED",
         "FAILED"
-      ]
-    },
-    "public.role": {
-      "name": "role",
-      "schema": "public",
-      "values": [
-        "ADMIN",
-        "USER"
       ]
     }
   },
