@@ -5,6 +5,8 @@ import {
   ObjectStorageService,
   Buckets,
   JobStatus,
+  zImageResizeJobParams,
+  ImageJobType,
 } from "@media-shifter/commons";
 import { verifySession } from "supertokens-node/recipe/session/framework/express";
 import { db } from "@media-shifter/db";
@@ -35,21 +37,26 @@ resizeRouter.get("/", verifySession(), async (req: Request, res: Response) => {
     stream: "Testing...",
   });
 
+  const jobParams = zImageResizeJobParams.parse({
+    targetWidth: 100,
+    targetHeight: 100,
+  });
+
+  // TODO create util to create image jobs
   const [result] = await db
     .insert(imageJobsSchema)
     .values({
       id: jobId,
       jobStatus: JobStatus.PENDING,
       userId: userId,
-      imageUri: imageUri,
+      inputUri: imageUri,
+      jobType: ImageJobType.RESIZE,
+      jobParams: jobParams,
     })
     .returning();
 
   const resizeData = {
-    imageUri: imageUri,
-    targetWidth: 100,
-    targetHeight: 100,
-    userId: "1",
+    jobId: result.id,
   };
 
   messageBroker.publishToQueue(Queues.IMAGES.RESIZE, resizeData);

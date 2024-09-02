@@ -1,5 +1,5 @@
 {
-  "id": "c8bfca36-8bc8-47e2-b6d7-d675d4a23aeb",
+  "id": "d32c0790-7d68-459c-9ee8-e853c5a255bb",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -21,11 +21,31 @@
           "primaryKey": false,
           "notNull": true
         },
-        "image_uri": {
-          "name": "image_uri",
+        "job_type": {
+          "name": "job_type",
+          "type": "image_job_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "job_params": {
+          "name": "job_params",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "input_uri": {
+          "name": "input_uri",
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "output_uri": {
+          "name": "output_uri",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
         },
         "user_id": {
           "name": "user_id",
@@ -33,8 +53,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "retries": {
-          "name": "retries",
+        "retry_count": {
+          "name": "retry_count",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -59,17 +79,28 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "image_jobs_image_uri_unique": {
-          "name": "image_jobs_image_uri_unique",
+        "image_jobs_input_uri_unique": {
+          "name": "image_jobs_input_uri_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "image_uri"
+            "input_uri"
           ]
         }
       }
     }
   },
   "enums": {
+    "public.image_job_type": {
+      "name": "image_job_type",
+      "schema": "public",
+      "values": [
+        "OCR",
+        "REMOVE_BACKGROUND",
+        "RESIZE",
+        "UPSCALE",
+        "CONVERT"
+      ]
+    },
     "public.job_status": {
       "name": "job_status",
       "schema": "public",
