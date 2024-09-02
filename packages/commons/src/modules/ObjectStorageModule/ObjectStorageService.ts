@@ -6,6 +6,7 @@ interface PutObjectParams {
   dataType: "input" | "output";
   objectName: string;
   stream: Buffer | string;
+  size?: number;
   metadata?: Record<string, string | number>;
 }
 
@@ -51,7 +52,7 @@ export class ObjectStorageService {
       params.bucket,
       `${params.dataType}/${params.objectName}`,
       params.stream,
-      null,
+      params.size || null,
       params.metadata
     );
   }
