@@ -1,0 +1,122 @@
+{
+  "id": "d32c0790-7d68-459c-9ee8-e853c5a255bb",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.image_jobs": {
+      "name": "image_jobs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "job_status": {
+          "name": "job_status",
+          "type": "job_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "job_type": {
+          "name": "job_type",
+          "type": "image_job_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "job_params": {
+          "name": "job_params",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "input_uri": {
+          "name": "input_uri",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "output_uri": {
+          "name": "output_uri",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "retry_count": {
+          "name": "retry_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "image_jobs_input_uri_unique": {
+          "name": "image_jobs_input_uri_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "input_uri"
+          ]
+        }
+      }
+    }
+  },
+  "enums": {
+    "public.image_job_type": {
+      "name": "image_job_type",
+      "schema": "public",
+      "values": [
+        "OCR",
+        "REMOVE_BACKGROUND",
+        "RESIZE",
+        "UPSCALE",
+        "CONVERT"
+      ]
+    },
+    "public.job_status": {
+      "name": "job_status",
+      "schema": "public",
+      "values": [
+        "PENDING",
+        "IN_PROGRESS",
+        "COMPLETED",
+        "FAILED"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

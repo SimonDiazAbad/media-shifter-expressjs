@@ -1,8 +1,8 @@
-import express, { Express, Request, Response, Router } from "express";
-import resizerRouter from "./resizing/resizing.router";
+import express, { Router } from "express";
+import imagesRouter from "./images";
 
 const routerV1: Router = express.Router();
 
-routerV1.use("/resizing", resizerRouter);
+routerV1.use("/images", imagesRouter);
 
 export default routerV1;

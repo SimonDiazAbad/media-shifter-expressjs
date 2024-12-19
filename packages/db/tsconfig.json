@@ -1,8 +1,8 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "declaration": false,
-    "outDir": "../../dist/apps/img-shifter"
+    "declaration": true,
+    "outDir": "../../dist/packages/db"
   },
   "include": ["src/**/*"],
   "exclude": [

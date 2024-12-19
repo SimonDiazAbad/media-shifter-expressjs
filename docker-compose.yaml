@@ -1,16 +1,92 @@
 services:
-    #######################################################
-    #  img-shifter
-    #######################################################
+  #######################################################
+  #  gateway
+  #######################################################
+  gateway:
+    build:
+      context: .
+      dockerfile: ./apps/gateway/Dockerfile
+    command: bun dist/gateway/index.js
+    env_file:
+      - ./apps/gateway/.env
+    ports:
+      - 3000:3000
+    depends_on:
+      - rabbitmq
+      - minio
+      - postgresql
+    networks:
+      - rabbitmq_network
+      - minio_network
+      - postgresql_network
+  #######################################################
+  #  img-shifter
+  #######################################################
   img-shifter:
     build:
       context: .
       dockerfile: ./apps/img-shifter/Dockerfile
-      target: development
-    command: node dist/apps/img-shifter/index.js
-    # env_file:
-    #   - ./apps/img-shifter/.env
+    command: node apps/img-shifter/dist/main.js
+    env_file:
+      - ./apps/img-shifter/.env
     ports:
-      - 3000:3000
+      - 3001:3001
+    depends_on:
+      - rabbitmq
+      - minio
+      - postgresql
+    networks:
+      - rabbitmq_network
+      - minio_network
+      - postgresql_network
+  #######################################################
+  #  rabbitmq
+  #######################################################
+  rabbitmq:
+    image: rabbitmq:3.13.6-management-alpine
+    container_name: "rabbitmq"
+    ports:
+      - 5672:5672
+      - 15672:15672
     volumes:
-      - .:/usr/src/app
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - rabbitmq_network
+    restart: unless-stopped
+  minio:
+    build:
+      context: ./docker-compose/minio
+      dockerfile: Dockerfile
+    container_name: minio
+    env_file:
+      - ./docker-compose/minio/.env
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    restart: unless-stopped
+    volumes:
+      - ./minio_data:/data
+    networks:
+      - minio_network
+  #######################################################
+  #  postgresql
+  #######################################################
+  postgresql:
+    image: postgres:16.4
+    container_name: postgresql
+    env_file:
+      - ./docker-compose/postgresql/.env
+    ports:
+      - 5432:5432
+    networks:
+      - postgresql_network
+    restart: unless-stopped
+
+networks:
+  rabbitmq_network:
+    driver: bridge
+  minio_network:
+    driver: bridge
+  postgresql_network:
+    driver: bridge

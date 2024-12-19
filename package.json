@@ -6,8 +6,21 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "img:dev": "yarn workspace @media-shifter/img-shifter dev",
-    "img:build": "yarn workspace @media-shifter/img-shifter build"
+    "img:dev": "bun --filter @media-shifter/img-shifter dev",
+    "img:build": "bun --filter @media-shifter/img-shifter build",
+    "img:start": "bun --filter @media-shifter/img-shifter start",
+    "gateway:run": "bun --filter @media-shifter/gateway run",
+    "gateway:start": "bun --filter @media-shifter/gateway start",
+    "gateway:dev": "bun --filter @media-shifter/gateway dev",
+    "gateway:build": "bun --filter @media-shifter/gateway build",
+    "commons:build": "bun --filter @media-shifter/commons build",
+    "commons:watch": "bun --filter @media-shifter/commons watch",
+    "all:build": "concurrently \"bun img:build\" \"bun gateway:build\"",
+    "all:dev": "concurrently \"bun img:dev\" \"bun gateway:dev\"",
+    "all:run": "concurrently \"bun img:start\" \"bun gateway:start\"",
+
+    "migration:generate": "bun --filter @media-shifter/db migration:generate",
+    "migration:run": "bun --filter @media-shifter/db migration:run"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +31,10 @@
   },
   "workspaces": [
     "apps/*",
-    "libs/*"
-  ]
+    "packages/*"
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "@media-shifter/commons": "workspace:*"
+  }
 }
